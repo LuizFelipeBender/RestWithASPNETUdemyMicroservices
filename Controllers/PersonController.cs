@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestWithASPNETUdemy.Models;
+using RestWithASPNETUdemy.Services.Implementation;
 
 namespace RestWithASPNETUdemy.Controllers
 {
@@ -17,10 +19,12 @@ namespace RestWithASPNETUdemy.Controllers
         };
 
         private readonly ILogger<PersonController> _logger;
+        private IPersonService _personService;
 
-        public PersonController(ILogger<PersonController> logger)
+        public PersonController(ILogger<PersonController> logger, IPersonService personService)
         {
             _logger = logger;
+            _personService = personService;
         }
 
         [HttpGet("sum/{firstNumber}/{secondNumber}")]
@@ -100,6 +104,43 @@ namespace RestWithASPNETUdemy.Controllers
             return BadRequest("Invalid Input");
         }
 
+        [HttpGet("Person/1")]
+        public IActionResult Get()
+        {
+            return Ok(_personService.FindAll());
+        }
+
+
+        [HttpGet("Person/2/{id}")]
+        public IActionResult Get(ulong id)
+        {
+            var person = _personService.FindByID(id);
+            if(person == null) return NotFound();
+            return Ok();
+        }
+
+        [HttpPost("Person/3")]
+        public IActionResult Post([FromBody] Person person)
+        {
+            if (person == null) return BadRequest();
+            return Ok(_personService.Create(person));
+        }
+
+        
+        [HttpPut("Person/4")]
+        public IActionResult Put([FromBody] Person person)
+        {
+            if (person == null) return BadRequest();
+            return Ok(_personService.Update(person));
+        }
+
+        
+        [HttpDelete("Person/5/{id}")]
+        public IActionResult Delete(ulong id)
+        {
+            _personService.Delete(id);
+            return NoContent();
+        }
         private bool IsNumeric(string strNumber)
         {
             double number;

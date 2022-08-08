@@ -7,9 +7,9 @@ namespace RestWithASPNETUdemy.Services.Implementation
     {
         Person Create(Person person); 
         Person FindByID(ulong id); 
-        Person Update(); 
+        Person Update(Person person); 
 
         List<Person> FindAll();
-        void Delete(Person person); 
-    }
+        void Delete(ulong id);
+        }
 }

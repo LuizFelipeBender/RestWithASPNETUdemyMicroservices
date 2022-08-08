@@ -15,20 +15,15 @@ namespace RestWithASPNETUdemy.Services.Implementation
             return person;
         }
 
-        public void Delete(Person person)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Person> FindAll()
         {
-            List<Person> persons = new List<Person>();
+            List<Person> peoples = new List<Person>();
             for (int i = 0; i < 8; i++)
             {
-                Person  person = Mockpersons(i);
-                persons.Add(person);
+                Person  person = Mockpeoples(i);
+                peoples.Add(person);
             }
-            return persons;
+            return peoples;
         }
 
         public Person FindByID(ulong id)
@@ -43,20 +38,16 @@ namespace RestWithASPNETUdemy.Services.Implementation
             };
         }
 
-        public Person Update()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Person Mockpersons(int i)
+        public Person Mockpeoples(int i)
         {
             return new Person
             {
                 Id = IncrementAndGet(),
-                FirstName = "John",
-                LastName = "Doe",
-                Address = "123 Main St",
-                Gender = "Male",
+                FirstName = $"John{+ i}",
+                LastName = $"Doe{+ i}",
+                Address = $"123 Main St{+ i}",
+                Gender = $"Male{+ i}",
 
             };
         }
@@ -64,6 +55,16 @@ namespace RestWithASPNETUdemy.Services.Implementation
         private ulong IncrementAndGet()
         {
             return Interlocked.Increment(ref count);
+        }
+
+        public Person Update(Person person)
+        {
+            return person;
+        }
+
+        public void Delete(ulong id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
